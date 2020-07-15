@@ -1,4 +1,4 @@
-"""가변 파라미터"""
+"""가변 파라미터(튜플이용)"""
 
 # def printNames(*names): #튜플형태로 입력
 #     for name in names:
