@@ -1,0 +1,13 @@
+1. 인스타그램에서 '제주도 맛집' 키워드에 해당되는 게시글 50개를 추출하여 results에 저장
+results = []
+
+for i in range(50):
+    get_content(driver)
+    results.append(data)
+    moveNext(driver)
+#data = [content, data, like, place, tags] 리턴
+=>[[content, data, like, place, tags],
+    [content, data, like, place, tags],
+    [content, data, like, place, tags],
+    ...]
+=> 총 50개 게시글을 저장하여 데이터프레임으로 출력
