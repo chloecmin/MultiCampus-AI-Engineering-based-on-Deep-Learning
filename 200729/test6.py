@@ -58,3 +58,5 @@ print(BubbleSort(data))
 print(BinarySearch(data, key))
 print(SelectionSort(data))
 print(BubbleSort2(data, len(data)-1))
+
+
