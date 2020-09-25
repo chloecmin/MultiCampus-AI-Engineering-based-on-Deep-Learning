@@ -70,25 +70,23 @@
 
  * ## Data Processing
 
-   1. 하나의 데이터만 주어졌을 때 Train 데이터와 Test 데이터로 분리하기
+ 1. 하나의 데이터만 주어졌을 때 Train 데이터와 Test 데이터로 분리하기
 
-      ```python
-      from sklearn.model_selection import train_test_split
-      
-      xTrain,xTest,yTrain,yTest = train_test_split(xdata, ydata, test_size=0.25, random_state=0) #주로 70:30으로 Train/Test데이터를 분리한다.
-      ```
+    ```python
+    from sklearn.model_selection import train_test_split
+    
+    xTrain,xTest,yTrain,yTest = train_test_split(xdata, ydata, test_size=0.25, random_state=0) #주로 70:30으로 Train/Test데이터를 분리한다.
+    ```
 
-      
+ 2. `StandardScaler` : 평균이 0, 표준편차가 1이 되도록 변환
 
-   2.  `StandardScaler` : 평균이 0, 표준편차가 1이 되도록 변환
-
-      ```python
-      from sklearn.preprocessing import StandardScaler
-      
-      sc = StandardScaler()
-      xTrain = sc.fit_transform(xTrain)
-      xTest = sc.fit_transform(xTest)
-      ```
+    ```python
+    from sklearn.preprocessing import StandardScaler
+    
+    sc = StandardScaler()
+    xTrain = sc.fit_transform(xTrain)
+    xTest = sc.fit_transform(xTest)
+    ```
 
    
 
@@ -105,23 +103,19 @@
 
 * ## 모델평가(분류분석)
 
-  1. Confusion Matrix : [모델평가도]()
+ 1. Confusion Matrix : [모델평가도]()
 
-     ```python
-     from sklearn.metrics import confusion_matrix
-     confusion_matrix(yTest, yPred)
-     ```
+    ```python
+    from sklearn.metrics import confusion_matrix
+    confusion_matrix(yTest, yPred)
+    ```
 
-     
+ 2. 정확도
+    ```python
+    from sklearn.metrics import accuracy_score
+    accuracy_score(yTest, yPred)
+    ```
 
-  2. 정확도
-
-     ```python
-     from sklearn.metrics import accuracy_score
-     accuracy_score(yTest, yPred)
-     ```
-
-     
 
 ---
 
