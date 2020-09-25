@@ -4,7 +4,7 @@
 
  1. `레이블 인코딩` : 순서가 의미있는 카테고리일 때
 
-    ex) 학점 :  A->1, B->2, C->3... (숫자가 커질수록 학점이 낮음)
+    *ex) 학점 :  A->1, B->2, C->3... (숫자가 커질수록 학점이 낮음)*
 
     ```python
     from sklearn.preprocessing import LabelEncoder
@@ -14,7 +14,7 @@
 
  2. `원핫 인코딩` : 순서가 의미없는 카테고리일 때
 
-    ex) 지역 :  서울=1000, 부산=0100, 제주=0010, 강릉=0001
+    *ex) 지역 :  서울=1000, 부산=0100, 제주=0010, 강릉=0001*
 
     ```python
     from sklearn.preprocessing import LabelEncoder
