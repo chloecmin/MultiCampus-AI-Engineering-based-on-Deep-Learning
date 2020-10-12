@@ -15,13 +15,13 @@ mean(mpgb$hwy)
 # • Q2. 자동차 제조 회사에 따라 도시 연비가 다른지 알아보려고 합니다. 
 # "audi"와 "toyota" 중 어느 manufacturer(자동차 제조 회사)의 cty(도시 연비)가 평균적으로 더 높은지 알아보세요. 
 mpg %>% 
-  group_by(manufacturer) %>% 
+  group_by(manufacturer=='audi' | manufacturer=='toyota') %>% 
   summarise(mean_hwy = mean(hwy))
 
 # • Q3. "chevrolet", "ford", "honda" 자동차의 고속도로 연비 평균을 알아보려고 합니다. 
 # 이 회사들의 자동차를 추출한 뒤 hwy 전체 평균을 구해보세요.
 mpg %>% 
-  filter(manufacturer=='chevrolet' | manufacturer=='ford' | manufacturer=='honda') %>% 
+  filter(manufacturer %in% c('chevrolet','ford','honda')) %>% #c함수 : 벡터생성
   summarise(mean_hwy = mean(hwy))
 
 
@@ -59,13 +59,19 @@ mpg_new %>% arrange(desc(mean_hc)) %>% head(3)
 
 # • Q4. 7~9번 문제를 해결할 수 있는 하나로 연결된 dplyr 구문을 만들어 출력하세요. 데이터는 복사본 대신 mpg 원본을 이용하세요.
 mpg %>% 
-  mutate(sum_hc=hwy+cty) %>% 
-  mutate(mean_hc = sum_hc/2) %>% 
+  mutate(sum_hc=hwy+cty,
+         mean_hc = sum_hc/2) %>% 
   arrange(desc(mean_hc)) %>% 
   head(3)
 
 # • Q10. 회사별로 "suv" 자동차의 도시 및 고속도로 통합 연비 평균을 구해 내림차순으로 정렬하고, 1~5위까지 출력하기
-mpg_new %>% filter(class=='suv') %>% arrange(desc(mean_hc)) %>% head(5)
+mpg_new %>% 
+  group_by(manufacturer) %>% 
+  filter(class=='suv') %>%
+  mutate(tot=(cty+hwy)/2) %>% 
+  summarise(mean_hc=mean(tot))
+  arrange(desc(mean_hc)) %>% 
+  head(5)
 
 # • Q11. mpg 데이터의 class는 "suv", "compact" 등 자동차를 특징에 따라 일곱 종류로 분류한 변수입니다. 
 # 어떤 차종의 연비가 높은지 비교해보려고 합니다. class별 cty 평균을 구해보세요.
@@ -76,8 +82,16 @@ mpg %>% group_by(class) %>% summarise(mean_cty = mean(cty))
 mpg %>% group_by(class) %>% summarise(mean_cty = mean(cty)) %>% arrange(desc(mean_cty))
 
 # • Q13. 어떤 회사 자동차의 hwy(고속도로 연비)가 가장 높은지 알아보려고 합니다. hwy 평균이 가장 높은 회사 세 곳을 출력하세요.
-mpg %>% group_by(manufacturer) %>% summarise(mean_hwy = mean(hwy)) %>% arrange(desc(mean_hwy)) %>% head(3)
+mpg %>% 
+  group_by(manufacturer) %>% 
+  summarise(mean_hwy = mean(hwy)) %>% 
+  arrange(desc(mean_hwy)) %>% 
+  head(3)
 
 # • Q14. 어떤 회사에서 "compact"(경차) 차종을 가장 많이 생산하는지 알아보려고 합니다. 각 회사별 "compact" 차종 수를 내림차순으로 정렬해 출력하세요.
-mpg %>% filter(class=='compact') %>% group_by(manufacturer) %>% summarise(counts = n()) %>% arrange(desc(counts))
+mpg %>% 
+  filter(class=='compact') %>% 
+  group_by(manufacturer) %>% 
+  summarise(counts = n()) %>% 
+  arrange(desc(counts))
 
