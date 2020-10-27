@@ -1,0 +1,21 @@
+https://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+https://www.lfd.uci.edu/~gohlke/pythonlibs/#jpype
+
+https://www.nltk.org/book/ch05.html
+
+https://www.ranks.nl/stopwords/korean
+
+
+
+
+After preventing President Obama from filling a vacancy four years ago, Republicans moved swiftly to deliver President Trump a victory days before the election. Both presidential candidates campaigned in Pennsylvania, where Joe Biden said he would expand his electoral map and Mr. Trump mocked Kamala Harris.
+
+Her impact could be felt right away. There are major election disputes awaiting immediate action by the Supreme Court from the battleground states of North Carolina and Pennsylvania. Both concern the date by which absentee ballots may be accepted. With Justice Barrett’s elevation in place of Justice Ginsburg, a liberal icon, the court is expected to tilt decisively to the right. It is gaining a conservative who could sway cases in every area of American life, including abortion rights, gay rights, business regulation and the environment.
+
+sentences=[['barber', 'person'], ['barber', 'good', 'person'], ['barber', 'huge', 'person'], ['knew', 'secret'], ['secret', 'kept', 'huge', 'secret'], ['huge', 'secret'], ['barber', 'kept', 'word'], ['barber', 'kept', 'word'], ['barber', 'kept', 'secret'], ['keeping', 'keeping', 'huge', 'secret', 'driving', 'barber', 'crazy'], ['barber', 'went', 'huge', 'mountain']]
+
+
+
+
+
