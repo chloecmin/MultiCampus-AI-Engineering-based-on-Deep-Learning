@@ -1,0 +1,7 @@
+'This is the first document.',
+    'This is the second second document.',
+    'And the third one.',
+    'Is this the first document?',
+    'The last document?',
+
+https://en.wikipedia.org/wiki/Tf%E2%80%93idf
