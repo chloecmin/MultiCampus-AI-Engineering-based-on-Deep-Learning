@@ -1,0 +1,187 @@
+corpus = ['king is a strong man', 
+          'queen is a wise woman', 
+          'boy is a young man',
+          'girl is a young woman',
+          'prince is a young king',
+          'princess is a young queen',
+          'man is strong', 
+          'woman is pretty',
+          'prince is a boy will be king',
+          'princess is a girl will be queen']
+
+def remove_stop_words(corpus):
+    stop_words = ['is', 'a', 'will', 'be']
+    results = []
+    for text in corpus:
+        tmp = text.split(' ')
+        for stop_word in stop_words:
+            if stop_word in tmp:
+                tmp.remove(stop_word)
+        results.append(" ".join(tmp))
+    
+    return results
+words = []
+for text in corpus:
+    for word in text.split(' '):
+        words.append(word)
+
+words = set(words)
+
+
+==========================================================
+
+
+
+sentences = []
+for sentence in corpus:
+    sentences.append(sentence.split())
+    
+WINDOW_SIZE = 2
+
+data = []
+for sentence in sentences:
+    for idx, word in enumerate(sentence):
+        for neighbor in sentence[ \
+                max(idx - WINDOW_SIZE, 0) : \
+                min(idx + WINDOW_SIZE, len(sentence)) + 1] : 
+            if neighbor != word:
+                data.append([word, neighbor])
+
+
+
+====================================================================
+
+
+
+ONE_HOT_DIM = len(words)
+
+# function to convert numbers to one hot vectors
+def to_one_hot_encoding(data_point_index):
+    one_hot_encoding = np.zeros(ONE_HOT_DIM)
+    one_hot_encoding[data_point_index] = 1
+    return one_hot_encoding
+
+X = [] # input word
+Y = [] # target word
+
+for x, y in zip(df['input'], df['label']):
+    X.append(to_one_hot_encoding(word2int[ x ]))
+    Y.append(to_one_hot_encoding(word2int[ y ]))
+
+# convert them to numpy arrays
+X_train = np.asarray(X)
+Y_train = np.asarray(Y)
+
+
+
+
+encoding_dim = 2
+input_word = Input(shape=(ONE_HOT_DIM,))
+
+encoded = Dense(encoding_dim, use_bias=False)(input_word)
+
+decoded = Dense(ONE_HOT_DIM, activation='softmax')(encoded)
+
+# this model maps an input to its reconstruction
+w2v_model = Model(input_word, decoded)
+
+
+
+
+
+From 강사 박길식 to Everyone:  01:33 PM
+w2v_df = pd.DataFrame(vectors, columns = ['x1', 'x2'])
+w2v_df['word'] = words
+w2v_df = w2v_df[['word', 'x1', 'x2']]
+w2v_df
+plt.show()
+fig, ax = plt.subplots()
+
+for word, x1, x2 in zip(w2v_df['word'], w2v_df['x1'], w2v_df['x2']):
+    ax.annotate(word, (x1,x2 ))
+    
+PADDING = 1.0
+x_axis_min = np.amin(vectors, axis=0)[0] - PADDING
+y_axis_min = np.amin(vectors, axis=0)[1] - PADDING
+x_axis_max = np.amax(vectors, axis=0)[0] + PADDING
+y_axis_max = np.amax(vectors, axis=0)[1] + PADDING
+ 
+plt.xlim(x_axis_min,x_axis_max)
+plt.ylim(y_axis_min,y_axis_max)
+plt.rcParams["figure.figsize"] = (9,9)
+
+plt.show()
+아래 코드를 삽입
+fig, ax = plt.subplots()
+
+for word, x1, x2 in zip(w2v_df['word'], w2v_df['x1'], w2v_df['x2']):
+    ax.annotate(word, (x1,x2 ))
+    
+PADDING = 1.0
+x_axis_min = np.amin(vectors, axis=0)[0] - PADDING
+y_axis_min = np.amin(vectors, axis=0)[1] - PADDING
+x_axis_max = np.amax(vectors, axis=0)[0] + PADDING
+y_axis_max = np.amax(vectors, axis=0)[1] + PADDING
+ 
+plt.xlim(x_axis_min,x_axis_max)
+plt.ylim(y_axis_min,y_axis_max)
+plt.rcParams["figure.figsize"] = (9,9)
+
+plt.show()
+
+
+
+
+
+From 강사 박길식 to Everyone:  01:45 PM
+https://wit3.fbk.eu/get.php?path=XML_releases/xml/ted_en-20160408.zip&filename=ted_en-20160408.zip
+
+
+
+===================================================================
+
+import re
+from lxml import etree
+import urllib.request
+import zipfile
+from nltk.tokenize import word_tokenize, sent_tokenize
+
+urllib.request.urlretrieve("https://wit3.fbk.eu/get.php?path=XML_releases/xml/ted_en-20160408.zip&filename=ted_en-20160408.zip", filename="ted_en-20160408.zip")
+
+with zipfile.ZipFile('ted_en-20160408.zip', 'r') as z:
+  target_text = etree.parse(z.open('ted_en-20160408.xml', 'r'))
+  parse_text = '\n'.join(target_text.xpath('//content/text()'))
+
+
+
+
+=====================================================================
+
+
+
+
+content_text = re.sub(r'\([^)]*\)', '', parse_text)
+
+sent_text=sent_tokenize(content_text)
+
+normalized_text = []
+for string in sent_text:
+     tokens = re.sub("[^a-z0-9]+", " ", string.lower())
+     normalized_text.append(tokens)
+
+result = [word_tokenize(sentence) for sentence in normalized_text]
+
+
+======================================================================
+
+https://radimrehurek.com/gensim/models/word2vec.html
+
+======================================================================
+
+https://dumps.wikimedia.org/kowiki/latest/
+
+=======================================================================
+
+
+
+
