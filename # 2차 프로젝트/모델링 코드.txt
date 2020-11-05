@@ -1,0 +1,58 @@
+ctv = CountVectorizer(analyzer='word',token_pattern=r'\w{1,}',
+            ngram_range=(1, 3), stop_words = 'english')
+ctv.fit(list(xtrain) + list(xvalid))
+xtrain_ctv =  ctv.transform(xtrain) 
+xvalid_ctv = ctv.transform(xvalid)
+
+
+#1. 로지스틱회귀
+clf = LogisticRegression(C=1.0) #C는 경계선을 유연하게... 클수록 오버피팅
+clf.fit(xtrain_ctv, ytrain)
+predictions = clf.predict_proba(xvalid_ctv)
+
+#2.  나이브베이즈
+clf = MultinomialNB()
+clf.fit(xtrain_ctv, ytrain)
+predictions = clf.predict_proba(xvalid_ctv)
+
+#3. XGBOOST(여러 디시전트리를 랜덤하게 선택)
+clf = xgb.XGBClassifier(max_depth=7, n_estimators=200, colsample_bytree=0.8, 
+                        subsample=0.8, nthread=10, learning_rate=0.1)
+clf.fit(xtrain_tfv.tocsc(), ytrain)
+predictions = clf.predict_proba(xvalid_tfv.tocsc())
+
+#4. 딥러닝
+# create a simple 3 layer sequential neural net
+model = Sequential()
+
+model.add(Dense(300, input_dim=300, activation='relu'))
+model.add(Dropout(0.2))
+model.add(BatchNormalization())
+
+model.add(Dense(300, activation='relu'))
+model.add(Dropout(0.3))
+model.add(BatchNormalization())
+
+model.add(Dense(3))
+model.add(Activation('softmax'))
+
+# compile the model
+model.compile(loss='categorical_crossentropy', optimizer='adam')
+
+
+
+
+# logloss
+
+def multiclass_logloss(actual, predicted, eps=1e-15):
+
+    if len(actual.shape) == 1:
+        actual2 = np.zeros((actual.shape[0], predicted.shape[1]))
+        for i, val in enumerate(actual):
+            actual2[i, val] = 1
+        actual = actual2
+
+    clip = np.clip(predicted, eps, 1 - eps)
+    rows = actual.shape[0]
+    vsota = np.sum(actual * np.log(clip))
+    return -1.0 / rows * vsota
