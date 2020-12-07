@@ -1,0 +1,10 @@
+corpus = [
+    'you know I want your love',
+    'I like you',
+    'what should I do ',    
+]
+
+doc1 = "apple banana everyone like likey watch card holder"
+doc2 = "apple banana coupon passport love you"
+
+https://www.kaggle.com/rounakbanik/the-movies-dataset

@@ -1,0 +1,146 @@
+X_val = X_train[50000:]
+Y_val = Y_train[50000:]
+X_train = X_train[:50000]
+Y_train = Y_train[:50000]
+From 이동진 to Everyone:  09:17 AM
+화면 체크 부탁드립니다
+From 박길식 강사 to Everyone:  09:29 AM
+X_train = X_train.reshape(50000, 784).astype('float32') / 255.0
+X_val = X_val.reshape(10000, 784).astype('float32') / 255.0
+X_test = X_test.reshape(10000, 784).astype('float32') / 255.0
+train_rand_idxs = np.random.choice(50000, 700)
+val_rand_idxs = np.random.choice(10000, 300)
+X_train = X_train[train_rand_idxs]
+Y_train = Y_train[train_rand_idxs]
+X_val = X_val[val_rand_idxs]
+Y_val = Y_val[val_rand_idxs]
+Y_train = np_utils.to_categorical(Y_train)
+Y_val = np_utils.to_categorical(Y_val)
+Y_test = np_utils.to_categorical(Y_test)
+From 박길식 강사 to Everyone:  09:40 AM
+import matplotlib.pyplot as plt
+
+fig, loss_ax = plt.subplots()
+
+acc_ax = loss_ax.twinx()
+
+loss_ax.plot(hist.history['loss'], 'y', label='train loss')
+loss_ax.plot(hist.history['val_loss'], 'r', label='val loss')
+
+acc_ax.plot(hist.history['acc'], 'b', label='train acc')
+acc_ax.plot(hist.history['val_acc'], 'g', label='val acc')
+
+loss_ax.set_xlabel('epoch')
+loss_ax.set_ylabel('loss')
+acc_ax.set_ylabel('accuray')
+
+loss_ax.legend(loc='upper left')
+acc_ax.legend(loc='lower left')
+
+plt.show()
+From 박길식 강사 to Everyone:  09:47 AM
+loss_and_metrics = model.evaluate(X_test, Y_test, batch_size=32)
+
+print('')
+print('loss : ' + str(loss_and_metrics[0]))
+print('accuray : ' + str(loss_and_metrics[1]))
+From 박길식 강사 to Everyone:  10:31 AM
+# 0. 사용할 패키지 불러오기
+from keras.utils import np_utils
+from keras.datasets import mnist
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+import numpy as np
+from numpy import argmax
+
+# 1. 데이터셋 생성하기
+
+# 훈련셋과 시험셋 불러오기
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+
+# 데이터셋 전처리
+x_train = x_train.reshape(60000, 784).astype('float32') / 255.0
+x_test = x_test.reshape(10000, 784).astype('float32') / 255.0
+
+# 원핫인코딩 (one-hot encoding) 처리
+y_train = np_utils.to_categorical(y_train)
+y_test = np_utils.to_categorical(y_test)
+
+# 훈련셋과 검증셋 분리
+x_val = x_train[:42000] # 훈련셋의 30%를 검증셋으로 사용
+x_train = x_train[42000:]
+y_val = y_train[:42000] # 훈련셋의 30%를 검증셋으로 사용
+y_train = y_train[42000:]
+
+# 2. 모델 구성하기
+model = Sequential()
+model.add(Dense(units=64, input_dim=28*28, activation='relu'))
+model.add(Dense(units=10, activation='softmax'))
+
+# 3. 모델 학습과정 설정하기
+model.compile(loss='categorical_crossentropy', optimizer='sgd', metrics=['accuracy'])
+
+# 4. 모델 학습시키기
+model.fit(x_train, y_train, epochs=5, batch_size=3
+From 박길식 강사 to Everyone:  10:33 AM
+# 4. 모델 학습시키기
+model.fit(x_train, y_train, epochs=5, batch_size=32, validation_data=(x_val, y_val))
+
+# 5. 모델 평가하기
+loss_and_metrics = model.evaluate(x_test, y_test, batch_size=32)
+print('')
+print('loss_and_metrics : ' + str(loss_and_metrics))
+
+# 6. 모델 사용하기
+xhat_idx = np.random.choice(x_test.shape[0], 5)
+xhat = x_test[xhat_idx]
+yhat = model.predict_classes(xhat)
+
+for i in range(5):
+    print('True : ' + str(argmax(y_test[xhat_idx[i]])) + ', Predict : ' + str(yhat[i]))
+From 박길식 강사 to Everyone:  10:39 AM
+from keras.utils import np_utils
+from keras.datasets import mnist
+from keras.models import Sequential
+from keras.layers import Dense, Activation
+import numpy as np
+from numpy import argmax
+
+(x_train, y_train), (x_test, y_test) = mnist.load_data()
+x_test = x_test.reshape(10000, 784).astype('float32') / 255.0
+y_test = np_utils.to_categorical(y_test)
+xhat_idx = np.random.choice(x_test.shape[0], 5)
+xhat = x_test[xhat_idx]
+From 박길식 강사 to Everyone:  11:19 AM
+from keras.layers import Input, Dense, LSTM, Embedding, SimpleRNN
+from keras.models import Model
+from keras.models import Sequential
+from keras.preprocessing.text import one_hot
+from keras.preprocessing.sequence import pad_sequences
+import numpy as np
+X = [] 
+Y = [] 
+for i in range(6): 
+    lst = list(range(i,i+4)) 
+    X.append(list(map(lambda c: [c/10], lst))) 
+    Y.append((i+4)/10) 
+X = np.array(X) 
+Y = np.array(Y) 
+print(X)  #6,4,1
+print(Y)
+From 박길식 강사 to Everyone:  01:15 PM
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+import numpy as np
+from keras.utils import to_categorical
+text="""인공지능을 공부하면서 코딩을 하고 있다\n
+파이썬 코딩을 배우고 익혔다\n
+딥러닝을 배우고 코딩을 하고 있다\n
+파이썬 기반에서 판다스를 배우고 코딩을 했다\n"""
+From 박길식 강사 to Everyone:  01:22 PM
+sequences = list()
+for line in text.split('\n'): 
+    encoded = t.texts_to_sequences([line])[0]
+    for i in range(1, len(encoded)):
+        sequence = encoded[:i+1]
+        sequences.append(sequence)
